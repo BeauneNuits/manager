@@ -14,5 +14,23 @@ module.exports = merge(base, {
             'config': require('../config')
         }),
         new webpack.NoEmitOnErrorsPlugin()
-    ]
+    ],
+    proxy:
+        '/api/*': {
+            target: {
+                host    : 'localhost',
+                port    : 3000,
+                protocol: 'https:',
+                key     : fs.readFileSync('../ssl/manager-key.pem', 'utf8'),
+                cert    : fs.readFileSync('../ssl/manager-crt.pem', 'utf8')
+            },
+            changeOrigin: true,
+            secure      : false,
+            pathRewrite : {
+                '/api/login': '/services/login',
+                '^/api'     : '/services/manager'
+            },
+            logLevel: 'warn'
+        }
+    }
 });
