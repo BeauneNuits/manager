@@ -40,7 +40,8 @@ export default {
             'notify'
         ]),
         log(mail, pin) {
-            this.login({ meanOfLogin: 'etuMail', data: mail, pin })
+            rectified_mail = mail.trim().toLocaleLowerCase();
+            this.login({ meanOfLogin: 'etuMail', data: rectified_mail, pin })
                 .then(() => this.$router.push('/history'))
                 .catch(() => this.notify({ message: 'La connexion a échoué.' }));
         }
